@@ -33,16 +33,16 @@ fun LoginScreen(){
             TopAppBar(
                 title = { Text(text = "Identifícate") }
             )}
-            ) { Padding ->
+            ) { paddingValues ->
 
 
 
-        if( loginScreenview) {
+        if(loginScreenview) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(Padding)
+                    .padding(paddingValues)
             ) {
 
                 Row(
@@ -80,7 +80,7 @@ fun LoginScreen(){
         }
         else {
 
-            LoggedScreen()
+            LoggedScreen(paddingValues)
 
         }
     }
