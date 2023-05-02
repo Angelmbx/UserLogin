@@ -18,15 +18,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.loginusuario.UI.Stateholders.LoginViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Preview
 fun LoginScreen(){
    
-    var datosUsuario by rememberSaveable { mutableStateOf("") }
-    var datosPassword by rememberSaveable { mutableStateOf("") }
-    var loginScreenview by rememberSaveable { mutableStateOf(true) }
+    val LoginViewModel : LoginViewModel = viewModel()
     
     Scaffold (
         topBar = {
@@ -36,7 +36,7 @@ fun LoginScreen(){
             ) { paddingValues ->
 
 
-        if(loginScreenview) {
+        if(LoginViewModel.loginScreenview) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
@@ -54,7 +54,7 @@ fun LoginScreen(){
                         modifier = Modifier.weight(1f), text = "Usuario"
                     )
                     TextField(modifier = Modifier.weight(2f),
-                        value = datosUsuario, onValueChange = { datosUsuario = it })
+                        value = LoginViewModel.datosUsuario, onValueChange = { LoginViewModel.onUsuarioChange(it) })
                 }
                 Row(
                     horizontalArrangement = Arrangement.Center,
@@ -67,11 +67,11 @@ fun LoginScreen(){
                         text = "Contraseña"
                     )
                     TextField(modifier = Modifier.weight(2f),
-                        value = datosPassword, onValueChange = { datosPassword = it })
+                        value = LoginViewModel.datosPassword, onValueChange = { LoginViewModel.onPasswordChange(it) })
                 }
                 Button(modifier = Modifier
                     .padding(15.dp),
-                    onClick = { loginScreenview = false }
+                    onClick = { LoginViewModel.changeBooleanOnClick() }
                 ) {
                     Text(text = "Log in")
                 }
