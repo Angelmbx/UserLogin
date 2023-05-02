@@ -29,4 +29,9 @@ class LoginViewModel : ViewModel() {
         _loginScreenview = !_loginScreenview
     }
 
+    fun resetDatos(){
+        _datosUsuario=""
+        _datosPassword=""
+    }
+
 }

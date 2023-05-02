@@ -6,8 +6,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -26,65 +30,156 @@ import com.example.loginusuario.UI.Stateholders.LoginViewModel
 fun LoginScreen(){
    
     val LoginViewModel : LoginViewModel = viewModel()
-    
-    Scaffold (
-        topBar = {
-            TopAppBar(
-                title ={ Text(text = "Identifícate") }
-            )}
-            ) { paddingValues ->
+
+    if (LoginViewModel.loginScreenview) {
 
 
-        if(LoginViewModel.loginScreenview) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-            ) {
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = { Text(text = "Identifícate") },
+                    actions = {
+                        IconButton(
+                            onClick = { /*TODO*/ },
+                            enabled = false
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.ArrowBack,
+                                contentDescription = "Arrow back"
+                            )
+                        }
+                    }
+                )
+            }
+        ) { paddingValues ->
 
-                Row(
-                    horizontalArrangement = Arrangement.Center,
+
+            if (LoginViewModel.loginScreenview) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(12.dp)
+                        .fillMaxSize()
+                        .padding(paddingValues)
                 ) {
-                    Text(
-                        modifier = Modifier.weight(1f), text = "Usuario"
-                    )
-                    TextField(modifier = Modifier.weight(2f),
-                        value = LoginViewModel.datosUsuario, onValueChange = { LoginViewModel.onUsuarioChange(it) })
+
+                    Row(
+                        horizontalArrangement = Arrangement.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(12.dp)
+                    ) {
+                        Text(
+                            modifier = Modifier.weight(1f), text = "Usuario"
+                        )
+                        TextField(modifier = Modifier.weight(2f),
+                            value = LoginViewModel.datosUsuario,
+                            onValueChange = { LoginViewModel.onUsuarioChange(it) })
+                    }
+                    Row(
+                        horizontalArrangement = Arrangement.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(12.dp)
+                    ) {
+                        Text(
+                            modifier = Modifier.weight(1f),
+                            text = "Contraseña"
+                        )
+                        TextField(modifier = Modifier.weight(2f),
+                            value = LoginViewModel.datosPassword,
+                            onValueChange = { LoginViewModel.onPasswordChange(it) })
+                    }
+                    Button(modifier = Modifier
+                        .padding(15.dp),
+                        onClick = { LoginViewModel.changeBooleanOnClick() }
+                    ) {
+                        Text(text = "Log in")
+                    }
                 }
-                Row(
-                    horizontalArrangement = Arrangement.Center,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(12.dp)
-                ) {
-                    Text(
-                        modifier = Modifier.weight(1f),
-                        text = "Contraseña"
-                    )
-                    TextField(modifier = Modifier.weight(2f),
-                        value = LoginViewModel.datosPassword, onValueChange = { LoginViewModel.onPasswordChange(it) })
-                }
-                Button(modifier = Modifier
-                    .padding(15.dp),
-                    onClick = { LoginViewModel.changeBooleanOnClick() }
-                ) {
-                    Text(text = "Log in")
-                }
+            } else {
+                if (LoginViewModel.datosUsuario == "angel" && LoginViewModel.datosPassword == "password")
+                    LoggedScreen(paddingValues)
+                else
+                    LoginErrorScreen(paddingValues)
+
             }
         }
-        else {
-            if(LoginViewModel.datosUsuario=="angel" && LoginViewModel.datosPassword=="password")
-            LoggedScreen(paddingValues)
-            else
-            LoginErrorScreen(paddingValues)
+    }
+else{
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = { Text(text = "Inicio de sesión") },
+                    actions = {
+                        IconButton(
+                            enabled = true,
+                            onClick = {LoginViewModel.changeBooleanOnClick()
+                                        LoginViewModel.resetDatos()}
 
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.ArrowBack,
+                                contentDescription = "Arrow back"
+                            )
+                        }
+                    }
+                )
+            }
+        ) { paddingValues ->
+
+
+            if (LoginViewModel.loginScreenview) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues)
+                ) {
+
+                    Row(
+                        horizontalArrangement = Arrangement.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(12.dp)
+                    ) {
+                        Text(
+                            modifier = Modifier.weight(1f), text = "Usuario"
+                        )
+                        TextField(modifier = Modifier.weight(2f),
+                            value = LoginViewModel.datosUsuario,
+                            onValueChange = { LoginViewModel.onUsuarioChange(it) })
+                    }
+                    Row(
+                        horizontalArrangement = Arrangement.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(12.dp)
+                    ) {
+                        Text(
+                            modifier = Modifier.weight(1f),
+                            text = "Contraseña"
+                        )
+                        TextField(modifier = Modifier.weight(2f),
+                            value = LoginViewModel.datosPassword,
+                            onValueChange = { LoginViewModel.onPasswordChange(it) })
+                    }
+                    Button(modifier = Modifier
+                        .padding(15.dp),
+                        onClick = { LoginViewModel.changeBooleanOnClick() }
+                    ) {
+                        Text(text = "Log in")
+                    }
+                }
+            } else {
+                if (LoginViewModel.datosUsuario == "angel" && LoginViewModel.datosPassword == "password")
+                    LoggedScreen(paddingValues)
+                else
+                    LoginErrorScreen(paddingValues)
+
+            }
         }
     }
 
+    }
 
-}
 
