@@ -16,14 +16,17 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+@Preview
 fun LoginScreen(){
    
     var datosUsuario by rememberSaveable { mutableStateOf("") }
     var datosPassword by rememberSaveable { mutableStateOf("") }
+    var loginScreenview by rememberSaveable { mutableStateOf(true) }
     
     Scaffold (
         topBar = {
@@ -31,37 +34,55 @@ fun LoginScreen(){
                 title = { Text(text = "Identifícate") }
             )}
             ) { Padding ->
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(Padding)) {
-            
-        Row(horizontalArrangement = Arrangement.Center,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(12.dp)) {
-            Text(modifier= Modifier.weight(1f)
-                ,text = "Usuario")
-            TextField(modifier= Modifier.weight(2f),
-                value = datosUsuario , onValueChange = {datosUsuario = it} )
-        }
-            Row(horizontalArrangement = Arrangement.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(12.dp)) {
-                Text(modifier = Modifier.weight(1f),
-                    text = "Contraseña")
-                TextField(modifier = Modifier.weight(2f),
-                    value = datosPassword , onValueChange = {datosPassword = it} )
-            }
-         Button(modifier = Modifier
-             .padding(15.dp),onClick = { /*TODO*/ }) {
-             Text(text = "Log in")
-             
-         }   
-        }
 
+
+
+        if( loginScreenview) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(Padding)
+            ) {
+
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(12.dp)
+                ) {
+                    Text(
+                        modifier = Modifier.weight(1f), text = "Usuario"
+                    )
+                    TextField(modifier = Modifier.weight(2f),
+                        value = datosUsuario, onValueChange = { datosUsuario = it })
+                }
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(12.dp)
+                ) {
+                    Text(
+                        modifier = Modifier.weight(1f),
+                        text = "Contraseña"
+                    )
+                    TextField(modifier = Modifier.weight(2f),
+                        value = datosPassword, onValueChange = { datosPassword = it })
+                }
+                Button(modifier = Modifier
+                    .padding(15.dp),
+                    onClick = { loginScreenview = false }
+                ) {
+                    Text(text = "Log in")
+                }
+            }
+        }
+        else {
+
+            LoggedScreen()
+
+        }
     }
 
 
