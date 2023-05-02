@@ -31,10 +31,9 @@ fun LoginScreen(){
     Scaffold (
         topBar = {
             TopAppBar(
-                title = { Text(text = "Identifícate") }
+                title ={ Text(text = "Identifícate") }
             )}
             ) { paddingValues ->
-
 
 
         if(loginScreenview) {
@@ -79,9 +78,7 @@ fun LoginScreen(){
             }
         }
         else {
-
             LoggedScreen(paddingValues)
-
         }
     }
 
