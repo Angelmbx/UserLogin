@@ -30,21 +30,30 @@ import com.example.loginusuario.UI.Stateholders.LoginViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Preview
-fun LoginScreen(){
-   
-    val LoginViewModel : LoginViewModel = viewModel()
+fun LoginScreen() {
 
-    if (LoginViewModel.loginScreenview) {
+    val LoginViewModel: LoginViewModel = viewModel()
+
 
 
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text(text = "Identifícate") },
+                    title = {
+                        if (LoginViewModel.loginScreenview) {
+
+                            Text(text = "Identifícate")
+                        } else {
+                            Text(text = "Inicio de sesión")
+                        }
+                    },
                     actions = {
                         IconButton(
-                            onClick = { /*TODO*/ },
-                            enabled = false
+                            onClick = {
+                                LoginViewModel.changeBooleanOnClick()
+                                LoginViewModel.resetDatos()
+                            },
+                            enabled = !LoginViewModel.loginScreenview
                         ) {
                             Icon(
                                 imageVector = Icons.Default.ArrowBack,
@@ -88,87 +97,15 @@ fun LoginScreen(){
                             modifier = Modifier.weight(1f),
                             text = "Contraseña"
                         )
-                        TextField(modifier = Modifier.weight(2f),
+                        TextField(
+                            modifier = Modifier.weight(2f),
                             value = LoginViewModel.datosPassword,
-                            onValueChange = { LoginViewModel.onPasswordChange(it)},
+                            onValueChange = { LoginViewModel.onPasswordChange(it) },
                             visualTransformation = PasswordVisualTransformation(),
                             keyboardOptions = KeyboardOptions.Default.copy(
-                                keyboardType = KeyboardType.Password)
-                        )
-                    }
-                    Button(modifier = Modifier
-                        .padding(15.dp),
-                        onClick = { LoginViewModel.changeBooleanOnClick() }
-                    ) {
-                        Text(text = "Log in")
-                    }
-                }
-            } else {
-                if (LoginViewModel.datosUsuario == "angel" && LoginViewModel.datosPassword == "password")
-                    LoggedScreen(paddingValues)
-                else
-                    LoginErrorScreen(paddingValues)
-
-            }
-        }
-    }
-else{
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = { Text(text = "Inicio de sesión") },
-                    actions = {
-                        IconButton(
-                            enabled = true,
-                            onClick = {LoginViewModel.changeBooleanOnClick()
-                                        LoginViewModel.resetDatos()}
-
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.ArrowBack,
-                                contentDescription = "Arrow back"
+                                keyboardType = KeyboardType.Password
                             )
-                        }
-                    }
-                )
-            }
-        ) { paddingValues ->
-
-
-            if (LoginViewModel.loginScreenview) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(paddingValues)
-                ) {
-
-                    Row(
-                        horizontalArrangement = Arrangement.Center,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(12.dp)
-                    ) {
-                        Text(
-                            modifier = Modifier.weight(1f), text = "Usuario"
                         )
-                        TextField(modifier = Modifier.weight(2f),
-                            value = LoginViewModel.datosUsuario,
-                            onValueChange = { LoginViewModel.onUsuarioChange(it) })
-                    }
-                    Row(
-                        horizontalArrangement = Arrangement.Center,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(12.dp)
-                    ) {
-                        Text(
-                            modifier = Modifier.weight(1f),
-                            text = "Contraseña"
-                        )
-                        TextField(modifier = Modifier.weight(2f),
-                            value = LoginViewModel.datosPassword,
-                            onValueChange = { LoginViewModel.onPasswordChange(it) })
                     }
                     Button(modifier = Modifier
                         .padding(15.dp),
@@ -182,11 +119,9 @@ else{
                     LoggedScreen(paddingValues)
                 else
                     LoginErrorScreen(paddingValues)
-
             }
         }
-    }
 
-    }
+}
 
 
